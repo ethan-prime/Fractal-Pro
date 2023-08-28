@@ -50,7 +50,7 @@ def burning_ship_exp(c: complex, opt, max_iterations: int) -> float:
 def mandelbrot(c: complex, opt, max_iterations: int) -> float:
     z = 0
     for i in range(1, max_iterations):
-        z = z**3 + c
+        z = z**2 + c
         if abs(z) > 2:
             return i/max_iterations
     return 1

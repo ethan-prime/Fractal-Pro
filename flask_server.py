@@ -1,7 +1,7 @@
 from flask import Flask, request, render_template, redirect, url_for
 from render import *
 import cv2
-from cfg import INSTALLATION_PATH
+from cfg import INSTALLATION_PATH, THREADS
 
 app = Flask(__name__)
 
@@ -70,8 +70,11 @@ def home(grad_info):
                     max_iters = MAX_ITERS
                 else:
                     max_iters = int(max_iters)
-                f.calculate_batches(imgsize, xrange, yrange, samples, c=c, max_iters=max_iters)
-                f.get_pixels_from_batches('fractal_templates/'+file, imgsize, xrange, yrange, samples, c=c, max_iters=max_iters)
+                if THREADS > 1:
+                    f.calculate_batches(imgsize, xrange, yrange, samples, c=c, max_iters=max_iters)
+                    f.get_pixels_from_batches('fractal_templates/'+file, imgsize, xrange, yrange, samples, c=c, max_iters=max_iters)
+                elif THREADS == 1:
+                    f.get_pixels('fractal_templates/'+file, imgsize, xrange, yrange, samples, c=c, max_iters=max_iters)
                 res = np.array(f.pixels)
                 scale_factor = 720/res.shape[0]
                 res = cv2.resize(res, dsize=(int(res.shape[1]*scale_factor), int(res.shape[0]*scale_factor))).tolist()

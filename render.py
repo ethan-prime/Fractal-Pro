@@ -4,7 +4,7 @@ from gradient import lerp, GRADIENTS
 from fractals import *
 import numpy as np
 import os
-from cfg import INSTALLATION_PATH
+from cfg import INSTALLATION_PATH, THREADS
 from natsort import natsorted
 import cv2
 from concurrent.futures import ProcessPoolExecutor
@@ -19,6 +19,7 @@ FRACTALS_DICT = {
     'burning_ship_exp':burning_ship_exp,
     'mandelbrot':mandelbrot
 }
+
 
 def handle_lerps(parts):
     grad = []
@@ -47,7 +48,7 @@ class Fractal:
         for y in range(len(self.pixels)):
             for x in range(len(self.pixels[y])):
                 sum += self.pixels[y][x]
-        sum = sum/10 #10 threads?
+        sum = sum/THREADS 
         batch_sum = 0
         for y in range(len(self.pixels)):
             for x in range(len(self.pixels[y])):
@@ -55,7 +56,7 @@ class Fractal:
             if batch_sum >= sum:
                 batches.append(int((y+1)/scale_factor))
                 batch_sum = 0
-            if len(batches) == 9:
+            if len(batches) == THREADS-1:
                 break
         batches = [-1] + batches
         batches.append(int(img_size[1]/scale_factor))
@@ -69,12 +70,12 @@ class Fractal:
         delta_y = y_range[1]-y_range[0]
         with ProcessPoolExecutor() as executor:
             img_nsize = []
-            x_range = [x_range for _ in range(10)]
+            x_range = [x_range for _ in range(THREADS)]
             y_nrange = []
-            fractal = [self.fractal_name for _ in range(10)]
-            samples = [samples for _ in range(10)]
-            c = [c for _ in range(10)]
-            max_iters = [max_iters for _ in range(10)]
+            fractal = [self.fractal_name for _ in range(THREADS)]
+            samples = [samples for _ in range(THREADS)]
+            c = [c for _ in range(THREADS)]
+            max_iters = [max_iters for _ in range(THREADS)]
             for i, batch in enumerate(self.batches):
                 if i == 0:
                     img_nsize.append((img_size[0], batch[1]-batch[0]))
