@@ -36,7 +36,7 @@
 # Create Your Own Fractal
 ## 1. Write the function in ```fractals.py```.
 ## 2. Add to ```FRACTAL_DICT``` in ```render.py```.
-## Note that your fractal function should return a value between 0 and 1. Based on these values, the gradient will be applied. In general, it should return <# of iterations to diverge from escape radius>/<maximum iterations>
+## Note that your fractal function should return a value between 0 and 1. Based on these values, the gradient will be applied.
 
 # Examples
 ![alt text](https://github.com/ethan-prime/fractal-renderer/blob/master/results/8.png)
