@@ -1,0 +1,368 @@
+<html>
+<title>Fractal Renderer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@600&display=swap" rel="stylesheet">
+<style>
+    body {
+        font-family: 'Rubik', sans-serif;
+    }
+
+    #header {
+        font-size: 50px;
+        color: #ffffff;
+        text-shadow: 2px 2px 3px black;
+        margin: 5px;
+    }
+
+    #whole {
+        width: 100vw;
+        height: 100vh;
+    }
+
+    #main-container {
+        width: 80%;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    #fractal {
+        height: 40%;
+        margin-bottom: 2%;
+        box-shadow: 2px 2px 15px 1px black;
+        transition: 0.25s;
+    }
+
+    #fractal:hover {
+        box-shadow: 2px 2px 15px 5px black;
+        transition: 0.5s;
+    }
+
+    #gradient-div:hover {
+        box-shadow: 2px 2px 15px 5px black;
+        transition: 0.5s;
+    }
+
+    #gradient-div {
+        width: 60%;
+        height: 20px;
+        margin: 0 auto;
+        background: linear-gradient(90deg, #000000, #ffffff);
+        border-radius: 6px;
+        border: 2px solid white;
+        box-shadow: 2px 2px 15px 1px black;
+        transition: 0.25s;
+    }
+
+    #controls {
+        width: 80%;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .text-in {
+        margin-bottom: 5px;
+        padding-left: 10px;
+        width: 80%;
+        height: 2%;
+        font-family: 'Rubik', sans-serif;
+        border-radius: 6px;
+        color: #684c96;
+        border: none;
+        border: 1px solid rgba(0, 0, 0, 0.25);
+    }
+
+    .text-in::placeholder {
+        color: black;
+    }
+
+    #generate-form {
+        float: left;
+        width: 30%;
+    }
+
+    #table-form {
+        float: right;
+        width: 30%;
+    }
+
+    .color-pct {
+        text-align: center;
+        border: none;
+        font-family: 'Rubik', sans-serif;
+    }
+
+    .remove-button {
+        font-family: 'Rubik', sans-serif;
+        background-color: #ac74f2;
+        border: none;
+        text-align: center;
+        border-radius: 5px;
+        transition: 0.25s;
+    }
+
+    .remove-button {
+        height: 2%;
+        background-color: #684c96;
+        color: white;
+        transition: .1s;
+    }
+
+    .remove-button:hover {
+        box-shadow: 1px 1px 5px 1px black;
+        transition: .2s;
+        border: 1px solid white;
+    }
+
+    .general-button {
+        width: 60%;
+        height: 2%;
+        margin: 10px;
+        border-radius: 6px;
+        border: none;
+        background-color: #684c96;
+        color: white;
+        font-family: 'Rubik', sans-serif;
+        font-size: 15px;
+        transition: 0.25s;
+        box-shadow: 0.25px 0.25px 5px 0.1px black;
+    }
+
+    .general-button:hover {
+        box-shadow: 2px 2px 15px 1px black;
+        transition: 0.5s;
+        border: 1px solid white;
+    }
+
+    #load-fractal {
+        width: 20%;
+    }
+
+    #save-fractal {
+        width: 20%;
+    }
+
+    #loadfile {
+        width: 20%;
+    }
+
+    #addcolor {
+        height: 2%;
+        background-color: #684c96;
+        color: white;
+        transition: .1s;
+    }
+
+    #addcolor:hover {
+        box-shadow: 1px 1px 5px 1px black;
+        transition: .2s;
+        border: 1px solid white;
+    }
+
+    .slide {
+        accent-color: #684c96;
+    }
+
+    body {
+        background: #1c1c1c;
+    }
+
+    .extra-text {
+        color: white;
+        text-shadow: 2px 2px 15px 2px black;
+        border-radius: 10px;
+        font-size: 20px;
+    }
+
+    #subheader {
+        color: #ffffff;
+        text-shadow: 2px 2px 3px black;
+        font-size: 25px;
+        text-decoration: none;
+    }
+
+    #subheader>a {
+        color: #684c96;
+        text-decoration: none;
+    }
+</style>
+
+<body onload='add_colors()'>
+    <br>
+    <div id="main-container">
+        <p id="header" class="extra-text">Fractal Pro</p>
+        <p id="subheader" class="extra-text">made by <a href='https://github.com/ethan-prime'>@ethan-prime</a></p>
+        <img id='fractal' src="{{ url_for('static', filename='temp/temp.png')}}" /><br>
+        <div id="gradient-div"></div><br>
+    </div>
+    <div id="controls">
+        <form action="#" method="post">
+            <input type="text" class='text-in' id='loadfile' name="loadfile" placeholder="[numpy file]" />
+            <input type="submit" value="Load Fractal" id='load-fractal' class='general-button' />
+            <input type="button" class='general-button' value="Save Fractal" id="save-fractal" /><br><br>
+            <div id="generate-form">
+                <p class="extra-text">Generate Fractal:</p>
+                <input type="text" class='text-in' name="fractalname"
+                    placeholder="[Fractal Name such as 'julia']" /><br>
+                <input type="text" class='text-in' name="file" placeholder="[File Name: xyz.npy]" /><br>
+                <input type="text" class='text-in' name="imgsize"
+                    placeholder="[Image Size: W, H such as 1920, 1080]" /><br>
+                <input type="text" class='text-in' name="xrange"
+                    placeholder="[Range of x (real) values such as -2, 2]" /><br>
+                <input type="text" class='text-in' name="yrange"
+                    placeholder="[Range of y (imaginary) values such as -1.125, 1.125]" /><br>
+                <input type="text" class='text-in' name="samples" placeholder="[Samples/pixel, higher = clearer]" /><br>
+                <input type="text" class='text-in' name="constant" placeholder="[c value (optional) a+bi = a, b]" /><br>
+                <input type="text" class='text-in' name="maxiters"
+                    placeholder="[Max Iterations for calculation (optional)]" /><br>
+                <input type="submit" value="Generate Fractal" class='general-button' /><br>
+            </div>
+            <div id='table-form'>
+                <input type="button" class='remove-button' value="+" id="addcolor" />
+                <input type="submit" value="Apply Gradient" class='general-button' />
+                <table id="gradients">
+
+                </table>
+            </div>
+        </form>
+        <br>
+    </div>
+</body>
+<script>
+    let colors = [];
+
+    function update_grad_bar() {
+        let color_tuples = [];
+        for (let i = 0; i < colors.length; i++) {
+            color_tuples.push([document.getElementById(colors[i].id + 'v').value, document.getElementById(colors[i].id + 'd').value]);
+        };
+        color_tuples.sort((a, b) => { return a[1] - b[1] });
+        let css_str = "linear-gradient(90deg";
+        for (let i = 0; i < color_tuples.length; i++) {
+            css_str = css_str + ", " + color_tuples[i][0] + " " + color_tuples[i][1] + "%";
+        };
+        css_str += ")"
+        document.getElementById('gradient-div').style.background = css_str;
+        return css_str;
+    };
+
+    function new_color(color = "ffffff", pct = "50") {
+        //add remove button 
+        let id;
+        if (colors.length == 0) {
+            id = 1;
+        } else {
+            id = parseInt(colors[colors.length - 1].id.replace('c', '')) + 1;
+        }
+        tr = document.createElement('tr');
+        tr.setAttribute('id', 'c' + id);
+        td1 = document.createElement('td');
+        cv = document.createElement('input');
+        cv.setAttribute('type', 'color');
+        cv.setAttribute('value', '#' + color);
+        cv.setAttribute('id', 'c' + id + 'v');
+        cv.setAttribute('name', 'c' + id + 'v');
+        td2 = document.createElement('td');
+        cp = document.createElement('input');
+        cp.setAttribute('type', 'range');
+        cp.setAttribute('step', '0.1')
+        cp.setAttribute('min', '0');
+        cp.setAttribute('max', '100');
+        cp.setAttribute('value', pct);
+        cp.setAttribute('id', 'c' + id + 'p');
+        cp.setAttribute('class', 'slide');
+        td3 = document.createElement('td');
+        cd = document.createElement('input');
+        cd.setAttribute('type', 'text');
+        cd.setAttribute('value', pct);
+        cd.setAttribute('name', 'c' + id + 'd');
+        cd.setAttribute('id', 'c' + id + 'd');
+        cd.setAttribute('class', 'color-pct');
+        cb = document.createElement('input');
+        cb.setAttribute('type', 'button');
+        cb.setAttribute('id', 'c' + id + 'b');
+        cb.setAttribute('value', 'X');
+        cb.setAttribute('class', 'remove-button');
+        td4 = document.createElement('td');
+
+        td1.appendChild(cv);
+        td2.appendChild(cp);
+        td3.appendChild(cd);
+        td4.appendChild(cb);
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+        tr.appendChild(td3);
+        tr.appendChild(td4);
+        document.getElementById('gradients').appendChild(tr);
+        colors.push(tr)
+        for (let i = 0; i < colors.length; i++) {
+            document.getElementById(colors[i].id + 'p').oninput = () => {
+                document.getElementById(colors[i].id + 'd').value = document.getElementById(colors[i].id + 'p').value;
+                update_grad_bar();
+            };
+            document.getElementById(colors[i].id + 'd').oninput = () => {
+                document.getElementById(colors[i].id + 'p').value = document.getElementById(colors[i].id + 'd').value;
+                update_grad_bar();
+            };
+            document.getElementById(colors[i].id + 'v').oninput = () => {
+                update_grad_bar();
+            };
+            document.getElementById(colors[i].id + 'b').onclick = () => {
+                elem = colors[i].id;
+                index = colors.map((x) => x.id).indexOf(elem);
+                colors.splice(index, 1);
+                document.getElementById(elem).remove();
+                update_grad_bar();
+                recalibrate();
+            };
+        };
+        update_grad_bar();
+    };
+
+    function recalibrate() {
+        for (let i = 0; i < colors.length; i++) {
+            document.getElementById(colors[i].id + 'p').oninput = () => {
+                try {
+                    document.getElementById(colors[i].id + 'd').value = document.getElementById(colors[i].id + 'p').value;
+                    update_grad_bar();
+                } catch {
+                    recalibrate();
+                }
+
+            };
+            document.getElementById(colors[i].id + 'd').oninput = () => {
+                document.getElementById(colors[i].id + 'p').value = document.getElementById(colors[i].id + 'd').value;
+                update_grad_bar();
+            };
+            document.getElementById(colors[i].id + 'v').oninput = () => {
+                update_grad_bar();
+            };
+            document.getElementById(colors[i].id + 'b').onclick = () => {
+                elem = colors[i].id;
+                index = colors.map((x) => x.id).indexOf(elem);
+                colors.splice(index, 1);
+                document.getElementById(elem).remove();
+                update_grad_bar();
+            };
+        };
+    };
+
+    function add_colors() {
+        g_info = "{{ g_info }}";
+        g_info = g_info.replace('#', '');
+        g_info = g_info.split('&amp;');
+        g_info = g_info.map((x) => x.split('+'));
+        for (let i = 0; i < g_info.length; i++) {
+            new_color(g_info[i][0], g_info[i][1]);
+        };
+        recalibrate();
+    };
+
+    function save_fractal() {
+        location.href = 'http://localhost:5000/save-fractal';
+    }
+    document.getElementById('addcolor').onclick = new_color;
+    document.getElementById('save-fractal').onclick = save_fractal;
+</script>
+
+</html>
