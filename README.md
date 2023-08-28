@@ -13,9 +13,9 @@
 ### To launch the application, start the flask_server.py and visit [localhost:5000](http://localhost:5000). That's it!
 
 # Examples
-![alt text](https://github.com/ethan-prime/fractal-renderer/blob/main/results/8.png)
-![alt text](https://github.com/ethan-prime/fractal-renderer/blob/main/results/1.png)
-![alt text](https://github.com/ethan-prime/fractal-renderer/blob/main/results/3.png)
-![alt text](https://github.com/ethan-prime/fractal-renderer/blob/main/results/7.png)
-![alt text](https://github.com/ethan-prime/fractal-renderer/blob/main/results/2.png)
-![alt text](https://github.com/ethan-prime/fractal-renderer/blob/main/results/6.png)
+![alt text](https://github.com/ethan-prime/fractal-renderer/blob/master/results/8.png)
+![alt text](https://github.com/ethan-prime/fractal-renderer/blob/master/results/1.png)
+![alt text](https://github.com/ethan-prime/fractal-renderer/blob/master/results/3.png)
+![alt text](https://github.com/ethan-prime/fractal-renderer/blob/master/results/7.png)
+![alt text](https://github.com/ethan-prime/fractal-renderer/blob/master/results/2.png)
+![alt text](https://github.com/ethan-prime/fractal-renderer/blob/master/results/6.png)
