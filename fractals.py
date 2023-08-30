@@ -54,3 +54,26 @@ def mandelbrot(c: complex, opt, max_iterations: int) -> float:
         if abs(z) > 2:
             return i/max_iterations
     return 1
+
+def julia_smooth(z: complex, c: complex, max_iterations: int) -> float:
+    for i in range(1, max_iterations):
+        z = z**2+c
+        if abs(z) > 2:
+            return (i + 1 - np.log(np.log(abs(z))/np.log(2))/np.log(2))/max_iterations
+    return 1
+
+def burning_ship_smooth(c: complex, opt, max_iterations: int) -> float:
+    z = 0
+    for i in range(1, max_iterations):
+        z = (complex(abs(z.real), abs(z.imag)))**2 + c
+        if abs(z) > 2:
+            return (i + 1 - np.log(np.log(abs(z))/np.log(2))/np.log(2))/max_iterations
+    return 1
+
+def mandelbrot_smooth(c: complex, opt, max_iterations: int) -> float:
+    z = 0
+    for i in range(1, max_iterations):
+        z = z**2 + c
+        if abs(z) > 2:
+            return (i + 1 - np.log(np.log(abs(z))/np.log(2))/np.log(2))/max_iterations
+    return 1
