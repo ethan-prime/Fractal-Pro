@@ -44,7 +44,7 @@ def home(grad_info):
             grad_process[i][1] = grad_process[i][1] - grad_process[i-1][1]
         lerps = []
         for i in range(0, len(grad_process)-1):
-            lerps.append([int(grad_process[i+1][1]*10), hex_to_rgb(grad_process[i][0]), hex_to_rgb(grad_process[i+1][0])]) #multiply by 10, we'll get ~ 1000 colors in grad
+            lerps.append([int(grad_process[i+1][1]*100), hex_to_rgb(grad_process[i][0]), hex_to_rgb(grad_process[i+1][0])]) #multiply by 10, we'll get ~ 1000 colors in grad
         grad = handle_lerps(lerps)
         if len(filename) > 0:
             load(filename)
