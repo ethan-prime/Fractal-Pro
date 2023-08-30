@@ -17,7 +17,10 @@ FRACTALS_DICT = {
     'julia_exp':julia_exp,
     'burning_ship_log':burning_ship_log,
     'burning_ship_exp':burning_ship_exp,
-    'mandelbrot':mandelbrot
+    'mandelbrot':mandelbrot,
+    'mandelbrot_smooth':mandelbrot_smooth,
+    'julia_smooth':julia_smooth,
+    'burning_ship_smooth':burning_ship_smooth
 }
 
 
@@ -40,7 +43,7 @@ class Fractal:
         self.batches = []
     
     def calculate_batches(self, img_size: tuple, x_range: tuple, y_range: tuple, samples: int = 1, c = C, max_iters = MAX_ITERS):
-        scale_factor = 100/img_size[1] #400p resolution
+        scale_factor = 100/img_size[1] #100p resolution for test image
         img_size = (int(img_size[0]*scale_factor), int(img_size[1]*scale_factor))
         self.get_pixels('NOSAVE', img_size=img_size, x_range=x_range, y_range=y_range, samples=samples, c=c, max_iters=max_iters)
         batches = []
