@@ -33,6 +33,11 @@
 ## C: default C value
 ## MAX_ITERS: default Max Iterations value.
 
+# Enable CPU Threading (faster rendering)
+## 1. Go to ```cfg.py```
+## 2. Set the constant ```THREADS = <number of CPU threads to use>```
+## That's it!
+
 # Create Your Own Fractal
 ## 1. Write the function in ```fractals.py```.
 ## 2. Add to ```FRACTAL_DICT``` in ```render.py```.
